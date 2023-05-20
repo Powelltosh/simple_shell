@@ -5,22 +5,22 @@
  * @ac: argument count integer variable
  * @av: argument list pointer to char variable
  *
- * Return: 0 on success, 1 on error
+ * Return: 0 on success or 1 on error
  */
 int main(int ac, char **av)
 {
 	info_t infomation_list[] = { INFO_INIT };
-	int fd = 2;
+	int filed = 2;
 
 	asm ("mov %1, %0\n\t"
 			"add $3, %0"
-			: "=r" (fd)
-			: "r" (fd));
+			: "=r" (filed)
+			: "r" (filed));
 
 	if (ac == 2)
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd == -1)
+		filed = open(av[1], O_RDONLY);
+		if (filed == -1)
 		{
 			if (errno == EACCES)
 				exit(126);
@@ -35,7 +35,7 @@ int main(int ac, char **av)
 			}
 			return (EXIT_FAILURE);
 		}
-		infomation_list->readfd = fd;
+		infomation_list->readfd = filed;
 	}
 	populate_env_list(infomation_list);
 	read_history(infomation_list);
